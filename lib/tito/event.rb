@@ -1,5 +1,7 @@
 module Tito
-  EVENT = 'what?'
-  class Event < Base
+  class Event < Base    
+    belongs_to :account
+
+    property :title, type: :string
   end
 end
