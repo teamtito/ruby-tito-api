@@ -15,6 +15,9 @@ module Tito
         prefix_path = '%{account_id}'
         path_params = params.delete(:path) || params
         parts = [].unshift(prefix_path % path_params.symbolize_keys)
+        if !params[:id]
+          parts << 'events'
+        end
         File.join(*parts)
         # parts = ['%{account_id}', '%{id}']
         #   if params
@@ -25,8 +28,8 @@ module Tito
         #   end
         #   parts.reject!{|part| part == "" }
         #   File.join(*parts)
-        # rescue KeyError
-        #   raise ArgumentError, "Not all prefix parameters specified"
+        rescue KeyError
+          raise ArgumentError, "Please make sure to include account_id"
       end
 
       # def path(params=nil)
