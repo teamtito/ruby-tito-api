@@ -7,3 +7,7 @@ gemspec
 group :development do
   gem 'byebug', require: 'byebug'
 end
+
+group :test do
+  gem 'm', '~> 1.3.1'
+end
