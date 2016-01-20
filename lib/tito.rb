@@ -2,6 +2,7 @@ require 'json_api_client'
 require "tito/version"
 require "tito/base"
 require "tito/oauth2_middleware"
+require "tito/eventable"
 
 require "tito/account"
 require "tito/event"
