@@ -11,4 +11,10 @@ class EventTest < Minitest::Test
     event.mark_as_persisted!
     assert_equal 'paulca/awesomeconf', event.class.requestor.send(:resource_path, event.attributes)
   end
+
+  def test_account_id_as_method
+    event = Tito::Event.new
+    event.account_id = 'awesomeconf'
+    assert_equal 'awesomeconf', event.account_id
+  end
 end

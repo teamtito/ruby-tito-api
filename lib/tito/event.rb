@@ -3,6 +3,19 @@ module Tito
     belongs_to :account
 
     property :title, type: :string
+    property :security_token, type: :string
+
+    def account_id
+      attributes['account_id'] || attributes['account-id']
+    end
+
+    def account_id=(val)
+      attributes['account_id'] = val
+    end
+
+    def security_token
+      attributes['security_token'] || attributes['security-token']
+    end
 
     class << self
 
@@ -19,26 +32,9 @@ module Tito
           parts << 'events'
         end
         File.join(*parts)
-        # parts = ['%{account_id}', '%{id}']
-        #   if params
-        #     path_params = params.delete(:path) || params
-        #     parts.unshift(_prefix_path % path_params.symbolize_keys)
-        #   else
-        #     parts.unshift(_prefix_path)
-        #   end
-        #   parts.reject!{|part| part == "" }
-        #   File.join(*parts)
         rescue KeyError
           raise ArgumentError, "Please make sure to include account_id"
       end
-
-      # def path(params=nil)
-      #   if params[:id].blank?
-      #     ['%account_id', 'events'].compact.join('/')
-      #   else
-      #     '%account_id'
-      #   end
-      # end
     end
   end
 end
