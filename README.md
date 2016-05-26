@@ -22,7 +22,9 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+### Set the API key
+
+You can set the API key globally with `Tito.api_key = 'xyz'` or you can set it per request with `Tito::Account.with_api_key('xyz').all` where `Account` is the model you want to interact with and `all` is the finder method.
 
 ## Development
 
