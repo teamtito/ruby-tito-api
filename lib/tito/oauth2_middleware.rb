@@ -1,15 +1,16 @@
 module Tito
   class OAuth2Middleware < FaradayMiddleware::OAuth2
     def call(env)
-      token = if @token.is_a?(Proc)
+      params = query_params(env[:url])
+
+      token = params.delete(:api_key) || params.delete('api_key')
+      token ||= if @token.is_a?(Proc)
         @token.call(env)
       else
         @token
       end
 
       token ||= Tito.api_key
-
-      params = query_params(env[:url])
 
       if token.respond_to?(:empty?) && !token.empty?
         env[:url].query = build_query params
