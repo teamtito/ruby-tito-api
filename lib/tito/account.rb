@@ -1,6 +1,7 @@
 module Tito
   class Account < Base
     property :name, type: :string
+    property :description, type: :string
     property :slug, type: :string
 
     def events
