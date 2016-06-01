@@ -5,6 +5,13 @@ require "tito/oauth2_middleware"
 require "tito/eventable"
 
 require "tito/account"
+require "tito/discount_code"
+require "tito/event_settings"
+require "tito/interested_user"
+require "tito/question"
+require "tito/registration"
+require "tito/release"
+require "tito/ticket"
 require "tito/event"
 require "tito/webhook_endpoint"
 
