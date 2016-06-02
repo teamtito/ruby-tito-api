@@ -16,11 +16,22 @@ module Tito
     end
 
     module ClassMethods
+
+      def event_id_from_params(params)
+        return params[:event][:id] if params[:event]
+        return params[:filter][:event_id] if params[:filter]
+      end
+
+      def account_id_from_params(params)
+        return params[:event][:account_id] if params[:event]
+        return params[:filter][:account_id] if params[:filter]
+      end
+
       def path(params=nil)
         prefix_path = '%{account_id}/%{event_id}'
         path_params = params.delete(:path) || params
-        path_params[:event_id] = params[:event][:id]
-        path_params[:account_id] = params[:event][:account_id] || params[:event]['account-id']
+        path_params[:event_id] = event_id_from_params(params)
+        path_params[:account_id] = account_id_from_params(params)
         parts = [].unshift(prefix_path % path_params.symbolize_keys)
         parts << params[:type]
         File.join(*parts)
