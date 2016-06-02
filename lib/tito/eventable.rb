@@ -33,8 +33,10 @@ module Tito
         path_params[:event_id] = event_id_from_params(params)
         path_params[:account_id] = account_id_from_params(params)
         parts = [].unshift(prefix_path % path_params.symbolize_keys)
-        parts << params[:type] if params[:type]
+        parts << table_name
+
         File.join(*parts)
+
         rescue KeyError
           raise ArgumentError, "Please make sure to include account_id and event_id"
       end
