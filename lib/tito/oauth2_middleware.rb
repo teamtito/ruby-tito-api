@@ -14,7 +14,11 @@ module Tito
 
       if token.respond_to?(:empty?) && !token.empty?
         env[:url].query = build_query params
-        env[:request_headers][AUTH_HEADER] ||= %(Bearer #{token})
+        if token.length > 30
+          env[:request_headers][AUTH_HEADER] ||= %(Bearer #{token})
+        else
+          env[:request_headers][AUTH_HEADER] ||= %(Token token="#{token}")
+        end
       end
 
       @app.call env
