@@ -5,6 +5,7 @@ require "tito/oauth2_middleware"
 require "tito/eventable"
 
 require "tito/account"
+require "tito/answer"
 require "tito/discount_code"
 require "tito/event_settings"
 require "tito/interested_user"
