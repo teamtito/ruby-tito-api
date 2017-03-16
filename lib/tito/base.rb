@@ -9,12 +9,13 @@ module Tito
       @site = val
     end
 
-    def self.auth
-      raise "API key is required" if !Tito.api_key
-      if Tito.api_key.length > 30
-        %(Bearer #{Tito.api_key})
+    def self.auth(api_key: nil)
+      token = api_key || Tito.api_key
+      raise "API key is required" if !token
+      if token.length > 30
+        %(Bearer #{token})
       else
-        %(Token token="#{Tito.api_key}")
+        %(Token token="#{token}")
       end
     end
 
@@ -29,8 +30,8 @@ module Tito
       @ssl_context = ctx
     end
 
-    def self.http
-      HTTP.auth(auth).accept("application/json")
+    def self.http(api_key: nil)
+      HTTP.auth(auth(api_key: nil)).accept("application/json")
     end
 
     def self.resource_path=(val)
@@ -57,21 +58,32 @@ module Tito
       @resource_path ||= "#{resource_name}s"
     end
 
+    def self.get_url(path)
+      [Tito::Base.site, path].join("/")
+    end
+
     def self.get(path, params = {})
-      url = [site, path].join("/")
-      new http.get(url, params: params, ssl_context: ssl_context).parse[resource_name]
+      new http.get(get_url(path), params: params, ssl_context: ssl_context).parse[resource_name]
+    end
+
+    def self.all_path(path_prefix: nil)
+      [path_prefix, resource_path].compact.join("/")
+    end
+
+    def self.all_url(path_prefix: nil)
+      [site, all_path(path_prefix: path_prefix)].join("/")
     end
 
     def self.all(params = {})
-      path_prefix = params.delete(:event_path)
-      url = [site, path_prefix, resource_path].compact.join("/")
-      http.get(url, params: params, ssl_context: ssl_context).parse.collect do |record|
+      api_key = params.delete(:api_key)
+      path_prefix = params.delete(:path_prefix)
+      http(api_key: api_key).get(all_url(path_prefix: path_prefix), params: params, ssl_context: ssl_context).parse[self.resource_path].collect do |record|
         new record
       end
     end
 
     def initialize(attrs = {})
-      self.path_prefix = attrs.delete(:event_path)
+      self.path_prefix = (attrs ||= {}).delete(:path_prefix)
       attrs.each do |key, val|
         attributes[key.to_s] = val
       end
@@ -101,12 +113,12 @@ module Tito
       !new_record?
     end
 
-    def auth
-      self.class.auth
+    def auth(api_key = nil)
+      self.class.auth(api_key: api_key)
     end
 
-    def http
-      self.class.http
+    def http(api_key = nil)
+      self.class.http(api_key: api_key)
     end
 
     def ssl_context
@@ -121,30 +133,17 @@ module Tito
       [Tito::Base.site, post_path].join("/")
     end
 
-    def save
+    def save(api_key: nil)
       if persisted?
-        attrs = http.put(put_url, json: {self.class.resource_name => attributes}, ssl_context: ssl_context).parse[self.class.resource_name]
+        attrs = http(api_key: api_key).put(put_url, json: {self.class.resource_name => attributes}, ssl_context: ssl_context).parse[self.class.resource_name]
       else
-        attrs = http.post(post_url, json: {self.class.resource_name => attributes}, ssl_context: ssl_context).parse[self.class.resource_name]
+        attrs = http(api_key: api_key).post(post_url, json: {self.class.resource_name => attributes}, ssl_context: ssl_context).parse[self.class.resource_name]
       end
       self.attributes = attrs
     end
 
-    def destroy
-      http.delete(put_url, ssl_context: ssl_context)
+    def destroy(api_key: nil)
+      http(api_key: api_key).delete(put_url, ssl_context: ssl_context)
     end
-
-    # def self.with_api_key(api_key, &block)
-    #   if block_given?
-    #     if api_key.length > 30
-    #       authorization = %(Bearer #{api_key})
-    #     else
-    #       authorization = %(Token token="#{api_key}")
-    #     end
-    #     with_headers(authorization: authorization, &block)
-    #   else
-    #     with_params(api_key: api_key)
-    #   end
-    # end
   end
 end

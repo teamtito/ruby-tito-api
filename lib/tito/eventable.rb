@@ -25,15 +25,11 @@ module Tito
 
     module ClassMethods
       def for_event(url)
-        RequestProxy.new(proxy_class: self, proxy_event_url: url)
+        RequestProxy.new(proxy_class: self, proxy_path: url)
       end
 
       def [](url)
         self.for_event(url)
-      end
-
-      def initialize(attrs)
-        super
       end
 
     #   def event_id_from_params(params)

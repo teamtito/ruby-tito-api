@@ -1,15 +1,25 @@
 module Tito
   class Event < Base
 
+    def path
+      "#{account_slug}/#{slug}"  
+    end
+
     def put_path
-      "#{account_slug}/#{slug}"
+      path
     end
 
     def post_path
       "#{account_slug}/events"
     end
 
-    
+    def self.for_account(url)
+      RequestProxy.new(proxy_class: self, proxy_path: url)
+    end
+
+    def self.[](url)
+      self.for_account(url)
+    end
 
     # property :title, type: :string
     # property :slug, type: :string
