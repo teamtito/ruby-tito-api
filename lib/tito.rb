@@ -1,8 +1,8 @@
-require 'json_api_client'
+require 'http'
 require "tito/version"
 require "tito/base"
-require "tito/oauth2_middleware"
 require "tito/eventable"
+require "tito/request_proxy"
 
 require "tito/account"
 require "tito/answer"
@@ -17,9 +17,16 @@ require "tito/event"
 require "tito/webhook_endpoint"
 
 module Tito
-  cattr_accessor :api_key
+  def self.api_key
+    return @api_key if @api_key
+    return ENV['TITO_API_KEY'] if ENV['TITO_API_KEY']
+  end
+
+  def self.api_key=(val)
+    @api_key = val
+  end
 end
 
-Tito::Base.connection do |connection|
-  connection.use Tito::OAuth2Middleware, lambda { |env| Tito.api_key }
-end
+# Tito::Base.connection do |connection|
+#   connection.use Tito::OAuth2Middleware, lambda { |env| Tito.api_key }
+# end

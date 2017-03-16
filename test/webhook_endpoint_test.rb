@@ -7,19 +7,18 @@ class WebhookEndpointTest < Minitest::Test
   end
 
   def test_the_path_for_all_webhook_endpoints
-    # TODO: Test for actually making the HTTP call
-    # Tito::WebhookEndpoint.where(account_id: 'paulca', event_id: 'awesomeconf').all
+    stub_tito_request("webhook_endpoints")
+    Tito::WebhookEndpoint.for_event("paulca/awesomeconf").all
+    Tito::WebhookEndpoint["paulca/awesomeconf"].all
   end
 
   def test_the_path_for_new_webhook_endpoint
-    webhook_endpoint = Tito::WebhookEndpoint.new(event: event)
-    assert_equal 'paulca/awesomeconf/webhook_endpoints', webhook_endpoint.class.requestor.send(:resource_path, webhook_endpoint.attributes)
+    webhook_endpoint = Tito::WebhookEndpoint["paulca/awesomeconf"].new
+    assert_equal 'paulca/awesomeconf/webhook_endpoints', webhook_endpoint.post_path
   end
 
   def test_the_path_for_existing_webhook_endpoint
-    event.mark_as_persisted!
-    webhook_endpoint = Tito::WebhookEndpoint.new(event: event, id: 1234)
-    webhook_endpoint.mark_as_persisted!
-    assert_equal 'paulca/awesomeconf/webhook_endpoints/1234', webhook_endpoint.class.requestor.send(:resource_path, webhook_endpoint.attributes)
+    webhook_endpoint = Tito::WebhookEndpoint["paulca/awesomeconf"].new(id: 1234)
+    assert_equal 'paulca/awesomeconf/webhook_endpoints/1234', webhook_endpoint.put_path
   end
 end
