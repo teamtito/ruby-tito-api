@@ -3,6 +3,7 @@ require "tito/version"
 require "tito/base"
 require "tito/eventable"
 require "tito/request_proxy"
+require "tito/response_array"
 
 require "tito/account"
 require "tito/answer"

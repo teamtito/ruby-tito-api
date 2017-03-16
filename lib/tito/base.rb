@@ -77,9 +77,14 @@ module Tito
     def self.all(params = {})
       api_key = params.delete(:api_key)
       path_prefix = params.delete(:path_prefix)
-      http(api_key: api_key).get(all_url(path_prefix: path_prefix), params: params, ssl_context: ssl_context).parse[self.resource_path].collect do |record|
+      response = http(api_key: api_key).get(all_url(path_prefix: path_prefix), params: params, ssl_context: ssl_context).parse
+      all_records = response[self.resource_path]
+      meta = response["meta"]
+      out = ResponseArray.new(all_records.collect do |record|
         new record
-      end
+      end)
+      out.meta = meta
+      out
     end
 
     def initialize(attrs = {})
