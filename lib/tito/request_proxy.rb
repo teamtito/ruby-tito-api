@@ -10,8 +10,9 @@ module Tito
       @api_key          = api_key
     end
 
-    def all
-      proxy_class.all(path_prefix: proxy_path, api_key: api_key)
+    def all(attrs = {})
+      _api_key = attrs.delete(:api_key) || api_key
+      proxy_class.all(path_prefix: proxy_path, api_key: _api_key)
     end
 
     def new(attrs = {})
