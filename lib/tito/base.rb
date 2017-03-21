@@ -31,7 +31,7 @@ module Tito
     end
 
     def self.http(api_key: nil)
-      HTTP.auth(auth(api_key: nil)).accept("application/json")
+      HTTP.auth(auth(api_key: api_key)).accept("application/json")
     end
 
     def self.resource_path=(val)

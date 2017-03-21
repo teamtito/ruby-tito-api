@@ -1,6 +1,8 @@
 module Tito
   class Event < Base
 
+    extend Eventable::ClassMethods
+
     def path
       "#{account_slug}/#{slug}"  
     end
@@ -11,14 +13,6 @@ module Tito
 
     def post_path
       "#{account_slug}/events"
-    end
-
-    def self.for_account(url)
-      RequestProxy.new(proxy_class: self, proxy_path: url)
-    end
-
-    def self.[](url)
-      self.for_account(url)
     end
 
     # property :title, type: :string

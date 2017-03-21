@@ -24,12 +24,12 @@ module Tito
     # end
 
     module ClassMethods
-      def for_event(url)
-        RequestProxy.new(proxy_class: self, proxy_path: url)
+      def for_event(url, options = {})
+        RequestProxy.new(proxy_class: self, proxy_path: url, api_key: options.delete(:api_key))
       end
 
-      def [](url)
-        self.for_event(url)
+      def [](url, options = {})
+        self.for_event(url, options)
       end
 
     #   def event_id_from_params(params)
