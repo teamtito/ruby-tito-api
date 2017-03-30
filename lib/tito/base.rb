@@ -63,7 +63,8 @@ module Tito
     end
 
     def self.get(path, params = {})
-      new http.get(get_url(path), params: params, ssl_context: ssl_context).parse[resource_name]
+      api_key = params.delete(:api_key)
+      new http(api_key: api_key).get(get_url(path), params: params, ssl_context: ssl_context).parse[resource_name]
     end
 
     def self.all_path(path_prefix: nil)

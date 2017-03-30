@@ -10,8 +10,8 @@ module Tito
       @api_key          = api_key
     end
 
-    def get
-      proxy_class.get(path_prefix: proxy_path, api_key: api_key)
+    def get(path, params = {})
+      proxy_class.get(path, params.merge(api_key: api_key))
     end
 
     def all
