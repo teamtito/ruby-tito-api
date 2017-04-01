@@ -11,7 +11,7 @@ module Tito
     end
 
     def get(path, params = {})
-      proxy_class.get(path, params.merge(api_key: api_key))
+      proxy_class.get(path, params.merge(path_prefix: proxy_path, api_key: api_key))
     end
 
     def all

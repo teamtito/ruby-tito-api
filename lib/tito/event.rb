@@ -3,6 +3,10 @@ module Tito
 
     extend Eventable::ClassMethods
 
+    def self.resource_path
+      nil
+    end
+
     def path
       "#{account_slug}/#{slug}"  
     end

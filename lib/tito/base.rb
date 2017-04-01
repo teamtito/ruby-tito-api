@@ -58,13 +58,18 @@ module Tito
       @resource_path ||= "#{resource_name}s"
     end
 
-    def self.get_url(path)
-      [Tito::Base.site, path].join("/")
+    def self.get_path(path, path_prefix: nil)
+      [path_prefix, self.resource_path, path].compact.join("/")
+    end
+
+    def self.get_url(path, path_prefix: nil)
+      [Tito::Base.site, get_path(path, path_prefix: path_prefix)].join("/")
     end
 
     def self.get(path, params = {})
       api_key = params.delete(:api_key)
-      new http(api_key: api_key).get(get_url(path), params: params, ssl_context: ssl_context).parse[resource_name]
+      path_prefix = params.delete(:path_prefix)
+      new http(api_key: api_key).get(get_url(path, path_prefix: path_prefix), params: params, ssl_context: ssl_context).parse[resource_name]
     end
 
     def self.all_path(path_prefix: nil)

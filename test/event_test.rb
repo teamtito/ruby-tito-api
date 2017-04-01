@@ -2,11 +2,6 @@ require 'test_helper'
 
 class EventTest < Minitest::Test
 
-  def get_getting_event
-    event = Tito::Event.get("paulca/awesomeconf")
-    assert_equal "AwesomeConf 👍", event.title
-  end
-
   def test_assigning_attributes
     event = Tito::Event.new(account_slug: 'paulca')
     assert_equal 'paulca', event.account_slug
