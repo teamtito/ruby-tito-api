@@ -7,7 +7,7 @@ module Tito
     def initialize(proxy_class: nil, proxy_path: nil, api_key: nil)
       @proxy_path       = proxy_path
       @proxy_class      = proxy_class
-      @api_key          = api_key || Tito.api_key
+      @api_key          = api_key
     end
 
     def extra_params
