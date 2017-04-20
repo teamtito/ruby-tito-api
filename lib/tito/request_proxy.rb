@@ -21,8 +21,8 @@ module Tito
       proxy_class.get(path, params.merge(extra_params))
     end
 
-    def all
-      proxy_class.all(extra_params)
+    def all(params = {})
+      proxy_class.all(params.merge(extra_params))
     end
 
     def new(attrs = {})
