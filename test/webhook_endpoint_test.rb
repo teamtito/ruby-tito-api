@@ -18,7 +18,7 @@ class WebhookEndpointTest < Minitest::Test
   end
 
   def test_the_path_for_existing_webhook_endpoint
-    webhook_endpoint = Tito::WebhookEndpoint["paulca/awesomeconf"].new(id: 1234)
+    webhook_endpoint = Tito::WebhookEndpoint["paulca/awesomeconf"].new("id" => 1234)
     assert_equal 'paulca/awesomeconf/webhook_endpoints/1234', webhook_endpoint.put_path
   end
 end
