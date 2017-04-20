@@ -2,6 +2,13 @@ require 'test_helper'
 
 class EventTest < Minitest::Test
 
+  def test_getting_all_events
+    stub_request(:get, "https://dashboard.tito.dev/paulca/events")
+      .to_return(body: fixture('events.json'), headers: {content_type: 'application/json; charset=utf-8'})
+    events = Tito::Event["paulca"].all
+    assert_equal "AwesomeConf ?", events.first.title
+  end
+
   def test_assigning_attributes
     event = Tito::Event.new(account_slug: 'paulca')
     assert_equal 'paulca', event.account_slug

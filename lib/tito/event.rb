@@ -3,7 +3,8 @@ module Tito
 
     extend Eventable::ClassMethods
 
-    def self.resource_path
+    def self.resource_path(request_type = nil)
+      return "events" if request_type == :all
       nil
     end
 

@@ -54,7 +54,7 @@ module Tito
       @resource_name ||= underscore_class_name.split("/").last
     end
 
-    def self.resource_path
+    def self.resource_path(*args)
       @resource_path ||= "#{resource_name}s"
     end
 
@@ -73,7 +73,7 @@ module Tito
     end
 
     def self.all_path(path_prefix: nil)
-      [path_prefix, resource_path].compact.join("/")
+      [path_prefix, resource_path(:all)].compact.join("/")
     end
 
     def self.all_url(path_prefix: nil)
@@ -84,7 +84,7 @@ module Tito
       api_key = params.delete(:api_key)
       path_prefix = params.delete(:path_prefix)
       response = http(api_key: api_key).get(all_url(path_prefix: path_prefix), params: params, ssl_context: ssl_context).parse
-      all_records = response[self.resource_path]
+      all_records = response[self.resource_path(:all)]
       meta = response["meta"]
       out = ResponseArray.new(all_records.collect do |record|
         new record
