@@ -124,11 +124,11 @@ module Tito
       !new_record?
     end
 
-    def auth(api_key = nil)
+    def auth(api_key: nil)
       self.class.auth(api_key: api_key)
     end
 
-    def http(api_key = nil)
+    def http(api_key: nil)
       self.class.http(api_key: api_key)
     end
 
