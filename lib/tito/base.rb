@@ -69,7 +69,7 @@ module Tito
     def self.get(path, params = {})
       api_key = params.delete(:api_key)
       path_prefix = params.delete(:path_prefix)
-      new http(api_key: api_key).get(get_url(path, path_prefix: path_prefix), params: params, ssl_context: ssl_context).parse[resource_name]
+      new http(api_key: api_key).get(get_url(path, path_prefix: path_prefix), params: ParamNester.encode(params), ssl_context: ssl_context).parse[resource_name]
     end
 
     def self.all_path(path_prefix: nil)
@@ -83,7 +83,7 @@ module Tito
     def self.all(params = {})
       api_key = params.delete(:api_key)
       path_prefix = params.delete(:path_prefix)
-      response = http(api_key: api_key).get(all_url(path_prefix: path_prefix), params: params, ssl_context: ssl_context).parse
+      response = http(api_key: api_key).get(all_url(path_prefix: path_prefix), params: ParamNester.encode(params), ssl_context: ssl_context).parse
       all_records = response[self.resource_path(:all)]
       meta = response["meta"]
       out = ResponseArray.new(all_records.collect do |record|
