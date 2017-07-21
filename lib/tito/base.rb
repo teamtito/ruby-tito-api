@@ -157,6 +157,7 @@ module Tito
       http(api_key: api_key).delete(put_url, ssl_context: ssl_context)
     end
 
+    # cf. https://github.com/sumofparts/lifter/commit/e224946538ea0be337b7418c2946dbf1c2018b6b
     module ParamNester
       def self.encode(value, key = nil, out_hash = {})
         case value
