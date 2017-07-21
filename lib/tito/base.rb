@@ -31,7 +31,7 @@ module Tito
     end
 
     def self.http(api_key: nil)
-      HTTP.auth(auth(api_key: api_key)).accept("application/json")
+      HTTP[user_agent: "Tito Ruby API #{Tito::VERSION}"].auth(auth(api_key: api_key)).accept("application/json")
     end
 
     def self.resource_path=(val)
@@ -155,6 +155,28 @@ module Tito
 
     def destroy(api_key: nil)
       http(api_key: api_key).delete(put_url, ssl_context: ssl_context)
+    end
+
+    module ParamNester
+      def self.encode(value, key = nil, out_hash = {})
+        case value
+        when Hash
+          value.each { |k,v| encode(v, append_key(key, k), out_hash) }
+          out_hash
+        when Array
+          value.each { |v| encode(v, "#{key}[]", out_hash) }
+          out_hash
+        when nil
+          ''
+        else
+          out_hash[key] = value
+          out_hash
+        end
+      end
+
+      def self.append_key(root_key, key)
+        root_key.nil? ? :"#{key}" : :"#{root_key}[#{key.to_s}]"
+      end
     end
   end
 end
