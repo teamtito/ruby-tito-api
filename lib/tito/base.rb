@@ -86,7 +86,7 @@ module Tito
       response = http(api_key: api_key).get(all_url(path_prefix: path_prefix), params: ParamNester.encode(params), ssl_context: ssl_context).parse
       all_records = response[self.resource_path(:all)]
       meta = response["meta"]
-      out = ResponseArray.new(all_records.collect do |record|
+      out = ResponseArray.new((all_records || []).collect do |record|
         new record
       end)
       out.meta = meta
