@@ -95,7 +95,7 @@ module Tito
 
     def self.event_ids(params = {})
       api_key = params.delete(:api_key)
-      url = [site, "my/events/ids"].join("/")
+      url =[site, "my/events/ids"].join("/")
       http(api_key: api_key).get(url).parse
     end
 
