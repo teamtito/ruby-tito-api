@@ -93,6 +93,12 @@ module Tito
       out
     end
 
+    def self.event_ids(params = {})
+      api_key = params.delete(:api_key)
+      url = [site, "my/events/ids"].join("/")
+      http(api_key: api_key).get(url).parse
+    end
+
     def initialize(attrs = {})
       self.path_prefix = (attrs ||= {}).delete(:path_prefix)
       attrs.each do |key, val|
