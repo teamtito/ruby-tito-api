@@ -27,5 +27,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "minitest", "~> 5.10"
   spec.add_development_dependency "dotenv", "~> 2.2"
   spec.add_development_dependency "byebug", "~> 9.0"
-  spec.add_development_dependency "webmock", "~> 3.0"
+  spec.add_development_dependency "webmock", "~> 2.3"
 end
