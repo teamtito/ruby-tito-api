@@ -19,13 +19,13 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_runtime_dependency "http", "~> 5.1.1"
+  spec.add_runtime_dependency "http", "> 3"
   spec.add_runtime_dependency "virtus", "~> 2.0.0"
 
-  spec.add_development_dependency "bundler", "~> 2.4.1"
-  spec.add_development_dependency "rake", "~> 13.0.6"
-  spec.add_development_dependency "minitest", "~> 5.18.0"
-  spec.add_development_dependency "dotenv", "~> 2.8.1"
-  spec.add_development_dependency "byebug", "~> 11.1.3"
-  spec.add_development_dependency "webmock", "~> 3.18.1"
+  spec.add_development_dependency "bundler", "~> 2.0"
+  spec.add_development_dependency "rake", "~> 10.0"
+  spec.add_development_dependency "minitest", "~> 5.10"
+  spec.add_development_dependency "dotenv", "~> 2.2"
+  spec.add_development_dependency "byebug", "~> 9.0"
+  spec.add_development_dependency "webmock", "~> 3.0"
 end
